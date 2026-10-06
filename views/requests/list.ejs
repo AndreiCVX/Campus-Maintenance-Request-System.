@@ -1,7 +1,7 @@
 <%- include('../partials/header', { title }) %>
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h1 class="h3 mb-0">My requests</h1>
-  <a class="btn btn-primary" href="/requests/new">New request</a>
+<div class="page-head">
+  <h1>My requests</h1>
+  <a class="btn btn-primary" href="/requests/new">Report a problem</a>
 </div>
-<%- include('../partials/request-table', { requests, showPeople: false, emptyText: 'You have not submitted any requests yet.' }) %>
+<%- include('../partials/request-table', { requests, showPeople: false, emptyText: 'You have not reported anything yet.', emptyAction: { href: '/requests/new', label: 'Report a problem' } }) %>
 <%- include('../partials/footer') %>

@@ -1,20 +1,39 @@
 <%- include('partials/header', { title }) %>
-<div class="row justify-content-center"><div class="col-md-5">
-  <h1 class="h3 mb-3">Log in</h1>
-  <% if (formError) { %><div class="alert alert-danger"><%= formError %></div><% } %>
-  <form method="post" action="/login" novalidate>
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input type="email" id="email" name="email" class="form-control <%= errors.email ? 'is-invalid' : '' %>" value="<%= values.email || '' %>">
-      <div class="invalid-feedback"><%= errors.email %></div>
+<div class="auth">
+  <section class="auth-side">
+    <div>
+      <h1>Something broken on campus?</h1>
+      <p>Tell facilities where it is and what is wrong. You can follow the repair from report to fixed.</p>
     </div>
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input type="password" id="password" name="password" class="form-control <%= errors.password ? 'is-invalid' : '' %>">
-      <div class="invalid-feedback"><%= errors.password %></div>
+    <div>
+      <div class="ticket">
+        <div class="t-title">Flickering light in lecture hall</div>
+        <div class="t-meta">Science Building, room 204</div>
+        <span class="chip chip-progress">In Progress</span>
+      </div>
+      <div class="t-cap">Example request</div>
     </div>
-    <button class="btn btn-primary">Log in</button>
-    <a class="ms-2" href="/register">Create an account</a>
-  </form>
-</div></div>
+  </section>
+  <section class="auth-form">
+    <div class="inner">
+      <h2>Log in</h2>
+      <p class="sub">Use your campus account.</p>
+      <% if (formError) { %><div class="alert alert-danger" role="alert"><%= formError %></div><% } %>
+      <form method="post" action="/login" novalidate>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" id="email" name="email" autocomplete="username" class="form-control <%= errors.email ? 'is-invalid' : '' %>" value="<%= values.email || '' %>">
+          <div class="invalid-feedback"><%= errors.email %></div>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" id="password" name="password" autocomplete="current-password" class="form-control <%= errors.password ? 'is-invalid' : '' %>">
+          <div class="invalid-feedback"><%= errors.password %></div>
+        </div>
+        <button class="btn btn-primary w-100">Log in</button>
+      </form>
+      <p class="mt-3 mb-0">New here? <a href="/register">Create an account</a></p>
+    </div>
+  </section>
+</div>
 <%- include('partials/footer') %>

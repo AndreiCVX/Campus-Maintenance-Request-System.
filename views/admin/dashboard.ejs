@@ -1,17 +1,21 @@
 <%- include('../partials/header', { title }) %>
-<h1 class="h3 mb-3">Admin dashboard</h1>
-<div class="row g-3 mb-4">
+<% const total = Object.values(counts).reduce((a, b) => a + b, 0); %>
+<div class="page-head"><h1>Dashboard</h1><a class="btn btn-outline-primary btn-sm" href="/admin/requests">See all requests</a></div>
+<div class="statrow">
   <% Object.entries(counts).forEach(([s, n]) => { %>
-  <div class="col-6 col-md">
-    <a href="/admin/requests?status=<%= encodeURIComponent(s) %>" class="text-decoration-none">
-      <div class="card text-center"><div class="card-body">
-        <div class="fs-2"><%= n %></div>
-        <span class="badge text-bg-<%= badge(s) %>"><%= s %></span>
-      </div></div>
-    </a>
-  </div>
+  <a class="stat" href="/admin/requests?status=<%= encodeURIComponent(s) %>">
+    <span class="stat-n"><%= n %></span>
+    <span class="chip chip-<%= badge(s) %>"><%= s %></span>
+  </a>
   <% }) %>
 </div>
-<h2 class="h5">Oldest unresolved requests</h2>
-<%- include('../partials/request-table', { requests: oldest, showPeople: true, emptyText: 'Nothing unresolved. Nice.' }) %>
+<% if (total) { let x = 0; %>
+<svg class="seg" preserveAspectRatio="none" role="img" aria-label="<%= total %> requests split by status">
+  <% Object.entries(counts).forEach(([s, n]) => { if (n) { const w = n / total * 100; %>
+  <rect class="seg-<%= badge(s) %>" x="<%= x %>%" y="0" width="<%= w %>%" height="10"></rect>
+  <% x += w; } }) %>
+</svg>
+<% } else { %><div class="mb-4"></div><% } %>
+<h2 class="h5 mb-2">Waiting the longest</h2>
+<%- include('../partials/request-table', { requests: oldest, showPeople: true, emptyText: 'Nothing is waiting. Every request is resolved.' }) %>
 <%- include('../partials/footer') %>

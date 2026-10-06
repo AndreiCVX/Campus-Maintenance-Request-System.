@@ -1,6 +1,6 @@
 <%- include('../partials/header', { title }) %>
-<div class="row justify-content-center"><div class="col-md-8">
-  <h1 class="h3 mb-3"><%= title %></h1>
+<div class="page-head"><div><a class="back" href="/requests">Back to my requests</a><h1><%= title %></h1></div></div>
+<div class="form-panel" style="max-width:720px">
   <form method="post" action="<%= action %>" novalidate>
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
@@ -16,7 +16,7 @@
       <div class="col-md-6 mb-3">
         <label for="category" class="form-label">Category</label>
         <select id="category" name="category" class="form-select <%= errors.category ? 'is-invalid' : '' %>">
-          <option value="">Choose...</option>
+          <option value="">Choose a category</option>
           <% categories.forEach(c => { %><option value="<%= c %>" <%= values.category === c ? 'selected' : '' %>><%= cap(c) %></option><% }) %>
         </select>
         <div class="invalid-feedback"><%= errors.category %></div>
@@ -39,8 +39,8 @@
         <div class="invalid-feedback"><%= errors.room %></div>
       </div>
     </div>
-    <button class="btn btn-primary">Save</button>
+    <button class="btn btn-primary">Save request</button>
     <a class="btn btn-link" href="/requests">Cancel</a>
   </form>
-</div></div>
+</div>
 <%- include('../partials/footer') %>

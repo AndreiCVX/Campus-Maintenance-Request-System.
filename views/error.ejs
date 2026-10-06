@@ -1,7 +1,7 @@
 <%- include('partials/header', { title }) %>
-<div class="text-center py-5">
-  <h1 class="display-4"><%= code %></h1>
-  <p class="lead"><%= message %></p>
-  <a class="btn btn-primary" href="/">Go back home</a>
-</div>
+<% if (!user) { %><div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem"><div class="text-center"><% } else { %><div class="py-5"><% } %>
+  <h1 style="font-size:4.5rem;margin:0"><%= code %></h1>
+  <p class="lead mb-3"><%= message %></p>
+  <a class="btn btn-primary" href="<%= user ? '/dashboard' : '/login' %>"><%= user ? 'Back to your dashboard' : 'Go to log in' %></a>
+<% if (!user) { %></div></div><% } else { %></div><% } %>
 <%- include('partials/footer') %>

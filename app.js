@@ -28,13 +28,14 @@ app.use(session({
 // Helpers available in every view.
 app.locals.fmt = (d) => (d ? new Date(d).toLocaleString() : '');
 app.locals.badge = (status) => ({
-  'Pending': 'secondary', 'Assigned': 'info', 'In Progress': 'warning',
-  'Completed': 'success', 'Cancelled': 'dark'
-}[status] || 'secondary');
+  'Pending': 'pending', 'Assigned': 'assigned', 'In Progress': 'progress',
+  'Completed': 'completed', 'Cancelled': 'cancelled'
+}[status] || 'pending');
 app.locals.cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : '');
 
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
+  res.locals.currentPath = req.path;
   res.locals.flash = req.session.flash || null;
   delete req.session.flash;
   next();

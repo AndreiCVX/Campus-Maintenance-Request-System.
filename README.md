@@ -10,9 +10,9 @@ Maintenance problems on campus are usually reported by word of mouth or paper no
 
 | Member | Main area |
 |---|---|
-| [Member 1] | Backend, routes, business logic |
-| [Member 2] | Frontend, pages, forms |
-| [Member 3] | Database, authentication, testing |
+| [Jon Andrei] | Backend, routes, business logic |
+| [Alhea and Kiara] | Frontend, pages, forms |
+| [Martina] | Database, authentication, testing |
 
 Roles overlapped in practice. The commit history and pull requests show who did what.
 
@@ -62,7 +62,7 @@ PORT=3000
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=root
-DB_PASSWORD=your_mysql_password
+DB_PASSWORD=
 DB_NAME=campus_maintenance
 SESSION_SECRET=change_this_to_a_long_random_string
 ```

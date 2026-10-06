@@ -1,25 +1,38 @@
 <%- include('../partials/header', { title }) %>
-<h1 class="h3 mb-3">Reports</h1>
+<% const max = (rows) => Math.max(1, ...rows.map(r => r.n)); %>
+<div class="page-head"><h1>Reports</h1></div>
 <div class="row g-4">
-  <div class="col-md-4">
-    <h2 class="h6">By status</h2>
-    <table class="table table-sm"><tbody>
-      <% Object.entries(counts).forEach(([s, n]) => { %><tr><td><%= s %></td><td class="text-end"><%= n %></td></tr><% }) %>
-    </tbody></table>
+  <div class="col-lg-4">
+    <section class="panel">
+      <h2>By status</h2>
+      <table class="report-table"><tbody>
+        <% Object.entries(counts).forEach(([s, n]) => { %>
+        <tr><td><span class="chip chip-<%= badge(s) %>"><%= s %></span></td><td><%= n %></td></tr>
+        <% }) %>
+      </tbody></table>
+    </section>
   </div>
-  <div class="col-md-4">
-    <h2 class="h6">By category</h2>
-    <table class="table table-sm"><tbody>
-      <% byCategory.forEach(r => { %><tr><td><%= cap(r.label) %></td><td class="text-end"><%= r.n %></td></tr><% }) %>
-      <% if (!byCategory.length) { %><tr><td class="text-muted">No data</td></tr><% } %>
-    </tbody></table>
+  <div class="col-lg-4">
+    <section class="panel">
+      <h2>By category</h2>
+      <% if (!byCategory.length) { %><p class="text-muted mb-0">No requests yet.</p><% } %>
+      <table class="report-table"><tbody>
+        <% byCategory.forEach(r => { %>
+        <tr><td><%= cap(r.label) %><progress class="bar" value="<%= r.n %>" max="<%= max(byCategory) %>"></progress></td><td><%= r.n %></td></tr>
+        <% }) %>
+      </tbody></table>
+    </section>
   </div>
-  <div class="col-md-4">
-    <h2 class="h6">By building</h2>
-    <table class="table table-sm"><tbody>
-      <% byBuilding.forEach(r => { %><tr><td><%= r.label %></td><td class="text-end"><%= r.n %></td></tr><% }) %>
-      <% if (!byBuilding.length) { %><tr><td class="text-muted">No data</td></tr><% } %>
-    </tbody></table>
+  <div class="col-lg-4">
+    <section class="panel">
+      <h2>By building</h2>
+      <% if (!byBuilding.length) { %><p class="text-muted mb-0">No requests yet.</p><% } %>
+      <table class="report-table"><tbody>
+        <% byBuilding.forEach(r => { %>
+        <tr><td><%= r.label %><progress class="bar" value="<%= r.n %>" max="<%= max(byBuilding) %>"></progress></td><td><%= r.n %></td></tr>
+        <% }) %>
+      </tbody></table>
+    </section>
   </div>
 </div>
 <%- include('../partials/footer') %>

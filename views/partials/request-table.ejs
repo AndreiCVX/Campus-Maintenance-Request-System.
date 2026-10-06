@@ -1,27 +1,31 @@
 <% if (!requests.length) { %>
-  <p class="text-muted"><%= emptyText || 'Nothing here yet.' %></p>
+  <div class="empty">
+    <div><%= emptyText || 'Nothing here yet.' %></div>
+    <% if (typeof emptyAction !== 'undefined' && emptyAction) { %><a class="btn btn-primary" href="<%= emptyAction.href %>"><%= emptyAction.label %></a><% } %>
+  </div>
 <% } else { %>
 <div class="table-responsive">
-<table class="table table-hover align-middle">
+<table class="work-table">
   <thead><tr>
-    <th>#</th><th>Title</th><th>Category</th><th>Location</th><th>Urgency</th><th>Status</th>
-    <% if (showPeople) { %><th>Requester</th><th>Technician</th><% } %>
+    <th>#</th><th>Problem</th><th>Category</th><th>Location</th><th>Urgency</th><th>Status</th>
+    <% if (showPeople) { %><th>Requested by</th><th>Technician</th><% } %>
     <th>Submitted</th>
   </tr></thead>
   <tbody>
   <% requests.forEach(r => { %>
-    <tr>
-      <td><%= r.id %></td>
-      <td><a href="/requests/<%= r.id %>"><%= r.title %></a></td>
+    <tr class="urgency-<%= r.urgency %>">
+      <td class="num"><%= r.id %></td>
+      <td class="title"><a href="/requests/<%= r.id %>"><%= r.title %></a></td>
       <td><%= cap(r.category) %></td>
       <td><%= r.building %>, <%= r.room %></td>
       <td><%= cap(r.urgency) %></td>
-      <td><span class="badge text-bg-<%= badge(r.status) %>"><%= r.status %></span></td>
-      <% if (showPeople) { %><td><%= r.requester_name %></td><td><%= r.tech_name || '-' %></td><% } %>
+      <td><span class="chip chip-<%= badge(r.status) %>"><%= r.status %></span></td>
+      <% if (showPeople) { %><td><%= r.requester_name %></td><td><%= r.tech_name || 'Not assigned' %></td><% } %>
       <td><%= fmt(r.created_at) %></td>
     </tr>
   <% }) %>
   </tbody>
 </table>
 </div>
+<p class="legend"><i style="background:#c3ccd5"></i>Low urgency<i style="background:var(--hivis)"></i>Medium<i style="background:var(--red)"></i>High</p>
 <% } %>
