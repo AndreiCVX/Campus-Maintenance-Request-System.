@@ -119,7 +119,7 @@ campus-maintenance/
 ├── docs/          REQUIREMENTS.md
 ├── app.js
 ├── package.json
-├── .env.example
+├── .env
 ├── .gitignore
 ├── README.md
 └── LICENSE
