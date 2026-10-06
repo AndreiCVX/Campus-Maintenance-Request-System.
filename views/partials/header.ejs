@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> | Campus Maintenance</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">Campus Maintenance</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav me-auto">
+        <% if (user && user.role === 'requester') { %>
+          <li class="nav-item"><a class="nav-link" href="/requests">My requests</a></li>
+          <li class="nav-item"><a class="nav-link" href="/requests/new">New request</a></li>
+        <% } else if (user && user.role === 'maintenance') { %>
+          <li class="nav-item"><a class="nav-link" href="/tech/jobs">My jobs</a></li>
+        <% } else if (user && user.role === 'admin') { %>
+          <li class="nav-item"><a class="nav-link" href="/admin">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/requests">All requests</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/users">Users</a></li>
+          <li class="nav-item"><a class="nav-link" href="/admin/reports">Reports</a></li>
+        <% } %>
+      </ul>
+      <ul class="navbar-nav">
+        <% if (user) { %>
+          <li class="nav-item d-flex align-items-center me-3 text-light small"><%= user.name %> (<%= user.role %>)</li>
+          <li class="nav-item">
+            <form method="post" action="/logout" class="d-inline"><button class="btn btn-outline-light btn-sm">Log out</button></form>
+          </li>
+        <% } else { %>
+          <li class="nav-item"><a class="nav-link" href="/login">Log in</a></li>
+          <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+<main class="container my-4">
+  <% if (flash) { %>
+    <div class="alert alert-<%= flash.type %>" role="alert"><%= flash.msg %></div>
+  <% } %>

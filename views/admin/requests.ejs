@@ -1,0 +1,21 @@
+<%- include('../partials/header', { title }) %>
+<h1 class="h3 mb-3">All requests</h1>
+<form method="get" class="row g-2 mb-3">
+  <div class="col-md-3"><input name="q" class="form-control" placeholder="Search title or description" value="<%= f.q %>" aria-label="Search"></div>
+  <div class="col-md-2">
+    <select name="status" class="form-select" aria-label="Status"><option value="">Any status</option>
+      <% statuses.forEach(s => { %><option <%= f.status === s ? 'selected' : '' %>><%= s %></option><% }) %></select>
+  </div>
+  <div class="col-md-2">
+    <select name="category" class="form-select" aria-label="Category"><option value="">Any category</option>
+      <% categories.forEach(c => { %><option value="<%= c %>" <%= f.category === c ? 'selected' : '' %>><%= cap(c) %></option><% }) %></select>
+  </div>
+  <div class="col-md-2">
+    <select name="urgency" class="form-select" aria-label="Urgency"><option value="">Any urgency</option>
+      <% levels.forEach(l => { %><option value="<%= l %>" <%= f.urgency === l ? 'selected' : '' %>><%= cap(l) %></option><% }) %></select>
+  </div>
+  <div class="col-md-2"><input name="building" class="form-control" placeholder="Building" value="<%= f.building %>" aria-label="Building"></div>
+  <div class="col-md-1"><button class="btn btn-primary w-100">Filter</button></div>
+</form>
+<%- include('../partials/request-table', { requests, showPeople: true, emptyText: 'No requests match those filters.' }) %>
+<%- include('../partials/footer') %>

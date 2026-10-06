@@ -1,0 +1,17 @@
+<%- include('partials/header', { title }) %>
+<div class="row justify-content-center"><div class="col-md-6">
+  <h1 class="h3 mb-3">Register</h1>
+  <form method="post" action="/register" novalidate>
+    <% [['name','Full name','text'],['email','School email','email'],['password','Password (8+ characters, letters and numbers)','password'],['confirm','Confirm password','password']].forEach(f => { %>
+    <div class="mb-3">
+      <label for="<%= f[0] %>" class="form-label"><%= f[1] %></label>
+      <input type="<%= f[2] %>" id="<%= f[0] %>" name="<%= f[0] %>" class="form-control <%= errors[f[0]] ? 'is-invalid' : '' %>"
+        <% if (f[2] !== 'password') { %>value="<%= values[f[0]] || '' %>"<% } %>>
+      <div class="invalid-feedback"><%= errors[f[0]] %></div>
+    </div>
+    <% }) %>
+    <button class="btn btn-primary">Create account</button>
+    <a class="ms-2" href="/login">I already have an account</a>
+  </form>
+</div></div>
+<%- include('partials/footer') %>

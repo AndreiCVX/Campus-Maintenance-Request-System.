@@ -1,0 +1,27 @@
+<% if (!requests.length) { %>
+  <p class="text-muted"><%= emptyText || 'Nothing here yet.' %></p>
+<% } else { %>
+<div class="table-responsive">
+<table class="table table-hover align-middle">
+  <thead><tr>
+    <th>#</th><th>Title</th><th>Category</th><th>Location</th><th>Urgency</th><th>Status</th>
+    <% if (showPeople) { %><th>Requester</th><th>Technician</th><% } %>
+    <th>Submitted</th>
+  </tr></thead>
+  <tbody>
+  <% requests.forEach(r => { %>
+    <tr>
+      <td><%= r.id %></td>
+      <td><a href="/requests/<%= r.id %>"><%= r.title %></a></td>
+      <td><%= cap(r.category) %></td>
+      <td><%= r.building %>, <%= r.room %></td>
+      <td><%= cap(r.urgency) %></td>
+      <td><span class="badge text-bg-<%= badge(r.status) %>"><%= r.status %></span></td>
+      <% if (showPeople) { %><td><%= r.requester_name %></td><td><%= r.tech_name || '-' %></td><% } %>
+      <td><%= fmt(r.created_at) %></td>
+    </tr>
+  <% }) %>
+  </tbody>
+</table>
+</div>
+<% } %>

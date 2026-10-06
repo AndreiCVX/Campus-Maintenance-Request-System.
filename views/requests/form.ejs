@@ -1,0 +1,46 @@
+<%- include('../partials/header', { title }) %>
+<div class="row justify-content-center"><div class="col-md-8">
+  <h1 class="h3 mb-3"><%= title %></h1>
+  <form method="post" action="<%= action %>" novalidate>
+    <div class="mb-3">
+      <label for="title" class="form-label">Title</label>
+      <input id="title" name="title" maxlength="100" class="form-control <%= errors.title ? 'is-invalid' : '' %>" value="<%= values.title || '' %>">
+      <div class="invalid-feedback"><%= errors.title %></div>
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">What is wrong?</label>
+      <textarea id="description" name="description" rows="4" maxlength="1000" class="form-control <%= errors.description ? 'is-invalid' : '' %>"><%= values.description || '' %></textarea>
+      <div class="invalid-feedback"><%= errors.description %></div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="category" class="form-label">Category</label>
+        <select id="category" name="category" class="form-select <%= errors.category ? 'is-invalid' : '' %>">
+          <option value="">Choose...</option>
+          <% categories.forEach(c => { %><option value="<%= c %>" <%= values.category === c ? 'selected' : '' %>><%= cap(c) %></option><% }) %>
+        </select>
+        <div class="invalid-feedback"><%= errors.category %></div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="urgency" class="form-label">Urgency</label>
+        <select id="urgency" name="urgency" class="form-select <%= errors.urgency ? 'is-invalid' : '' %>">
+          <% levels.forEach(l => { %><option value="<%= l %>" <%= values.urgency === l ? 'selected' : '' %>><%= cap(l) %></option><% }) %>
+        </select>
+        <div class="invalid-feedback"><%= errors.urgency %></div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="building" class="form-label">Building</label>
+        <input id="building" name="building" maxlength="50" class="form-control <%= errors.building ? 'is-invalid' : '' %>" value="<%= values.building || '' %>">
+        <div class="invalid-feedback"><%= errors.building %></div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label for="room" class="form-label">Room</label>
+        <input id="room" name="room" maxlength="20" class="form-control <%= errors.room ? 'is-invalid' : '' %>" value="<%= values.room || '' %>">
+        <div class="invalid-feedback"><%= errors.room %></div>
+      </div>
+    </div>
+    <button class="btn btn-primary">Save</button>
+    <a class="btn btn-link" href="/requests">Cancel</a>
+  </form>
+</div></div>
+<%- include('../partials/footer') %>

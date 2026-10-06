@@ -1,0 +1,77 @@
+<%- include('../partials/header', { title }) %>
+<div class="d-flex justify-content-between align-items-start mb-3">
+  <h1 class="h3 mb-0">#<%= r.id %> <%= r.title %></h1>
+  <span class="badge text-bg-<%= badge(r.status) %> fs-6"><%= r.status %></span>
+</div>
+
+<div class="row">
+  <div class="col-lg-7">
+    <dl class="row">
+      <dt class="col-sm-4">Description</dt><dd class="col-sm-8"><%= r.description %></dd>
+      <dt class="col-sm-4">Category</dt><dd class="col-sm-8"><%= cap(r.category) %></dd>
+      <dt class="col-sm-4">Location</dt><dd class="col-sm-8"><%= r.building %>, room <%= r.room %></dd>
+      <dt class="col-sm-4">Urgency</dt><dd class="col-sm-8"><%= cap(r.urgency) %></dd>
+      <dt class="col-sm-4">Priority</dt><dd class="col-sm-8"><%= r.priority ? cap(r.priority) : 'Not set' %></dd>
+      <dt class="col-sm-4">Requested by</dt><dd class="col-sm-8"><%= r.requester_name %></dd>
+      <dt class="col-sm-4">Technician</dt><dd class="col-sm-8"><%= r.tech_name || 'Not assigned' %></dd>
+      <dt class="col-sm-4">Submitted</dt><dd class="col-sm-8"><%= fmt(r.created_at) %></dd>
+    </dl>
+
+    <% if (user.role === 'requester' && r.status === 'Pending') { %>
+      <a class="btn btn-outline-primary btn-sm" href="/requests/<%= r.id %>/edit">Edit</a>
+      <form method="post" action="/requests/<%= r.id %>/cancel" class="d-inline" onsubmit="return confirm('Cancel this request?')">
+        <button class="btn btn-outline-danger btn-sm">Cancel request</button>
+      </form>
+    <% } %>
+  </div>
+
+  <div class="col-lg-5">
+    <% if (user.role === 'admin' && ['Pending','Assigned'].includes(r.status)) { %>
+    <div class="card mb-3"><div class="card-body">
+      <h2 class="h6">Assign technician</h2>
+      <form method="post" action="/admin/requests/<%= r.id %>/assign">
+        <select name="assigned_to" class="form-select mb-2" aria-label="Technician" required>
+          <option value="">Choose technician...</option>
+          <% techs.forEach(t => { %><option value="<%= t.id %>" <%= r.assigned_to === t.id ? 'selected' : '' %>><%= t.name %></option><% }) %>
+        </select>
+        <select name="priority" class="form-select mb-2" aria-label="Priority">
+          <% levels.forEach(l => { %><option value="<%= l %>" <%= (r.priority || r.urgency) === l ? 'selected' : '' %>><%= cap(l) %> priority</option><% }) %>
+        </select>
+        <button class="btn btn-primary btn-sm">Assign</button>
+      </form>
+    </div></div>
+    <% } %>
+
+    <% if (user.role === 'admin' && r.status === 'Completed') { %>
+    <div class="card mb-3"><div class="card-body">
+      <h2 class="h6">Reopen</h2>
+      <form method="post" action="/admin/requests/<%= r.id %>/reopen">
+        <input name="note" class="form-control mb-2" placeholder="Why is it being reopened?" maxlength="500" required>
+        <button class="btn btn-warning btn-sm">Reopen</button>
+      </form>
+    </div></div>
+    <% } %>
+
+    <% if (user.role === 'maintenance' && r.assigned_to === user.id && ['Assigned','In Progress'].includes(r.status)) { %>
+    <div class="card mb-3"><div class="card-body">
+      <h2 class="h6"><%= r.status === 'Assigned' ? 'Start work' : 'Finish work' %></h2>
+      <form method="post" action="/tech/jobs/<%= r.id %>/status">
+        <input type="hidden" name="status" value="<%= r.status === 'Assigned' ? 'In Progress' : 'Completed' %>">
+        <textarea name="note" rows="3" maxlength="500" class="form-control mb-2" placeholder="Add a note" required></textarea>
+        <button class="btn btn-primary btn-sm">Mark <%= r.status === 'Assigned' ? 'In Progress' : 'Completed' %></button>
+      </form>
+    </div></div>
+    <% } %>
+
+    <h2 class="h6">History</h2>
+    <ul class="list-group">
+      <% history.forEach(h => { %>
+      <li class="list-group-item">
+        <div><strong><%= h.new_status %></strong> <span class="text-muted small">by <%= h.who %>, <%= fmt(h.created_at) %></span></div>
+        <% if (h.note) { %><div class="small"><%= h.note %></div><% } %>
+      </li>
+      <% }) %>
+    </ul>
+  </div>
+</div>
+<%- include('../partials/footer') %>

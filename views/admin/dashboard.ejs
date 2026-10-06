@@ -1,0 +1,17 @@
+<%- include('../partials/header', { title }) %>
+<h1 class="h3 mb-3">Admin dashboard</h1>
+<div class="row g-3 mb-4">
+  <% Object.entries(counts).forEach(([s, n]) => { %>
+  <div class="col-6 col-md">
+    <a href="/admin/requests?status=<%= encodeURIComponent(s) %>" class="text-decoration-none">
+      <div class="card text-center"><div class="card-body">
+        <div class="fs-2"><%= n %></div>
+        <span class="badge text-bg-<%= badge(s) %>"><%= s %></span>
+      </div></div>
+    </a>
+  </div>
+  <% }) %>
+</div>
+<h2 class="h5">Oldest unresolved requests</h2>
+<%- include('../partials/request-table', { requests: oldest, showPeople: true, emptyText: 'Nothing unresolved. Nice.' }) %>
+<%- include('../partials/footer') %>

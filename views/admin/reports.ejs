@@ -1,0 +1,25 @@
+<%- include('../partials/header', { title }) %>
+<h1 class="h3 mb-3">Reports</h1>
+<div class="row g-4">
+  <div class="col-md-4">
+    <h2 class="h6">By status</h2>
+    <table class="table table-sm"><tbody>
+      <% Object.entries(counts).forEach(([s, n]) => { %><tr><td><%= s %></td><td class="text-end"><%= n %></td></tr><% }) %>
+    </tbody></table>
+  </div>
+  <div class="col-md-4">
+    <h2 class="h6">By category</h2>
+    <table class="table table-sm"><tbody>
+      <% byCategory.forEach(r => { %><tr><td><%= cap(r.label) %></td><td class="text-end"><%= r.n %></td></tr><% }) %>
+      <% if (!byCategory.length) { %><tr><td class="text-muted">No data</td></tr><% } %>
+    </tbody></table>
+  </div>
+  <div class="col-md-4">
+    <h2 class="h6">By building</h2>
+    <table class="table table-sm"><tbody>
+      <% byBuilding.forEach(r => { %><tr><td><%= r.label %></td><td class="text-end"><%= r.n %></td></tr><% }) %>
+      <% if (!byBuilding.length) { %><tr><td class="text-muted">No data</td></tr><% } %>
+    </tbody></table>
+  </div>
+</div>
+<%- include('../partials/footer') %>
